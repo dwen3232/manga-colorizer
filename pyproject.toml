@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "manga-colorizer"
+version = "0.1.0"
+description = ""
+authors = ["David Wen <davidrwen@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.3"
+types-beautifulsoup4 = "^4.12.0.20241020"
+types-requests = "^2.32.0.20241016"
+
+
+[tool.poetry.group.scrape.dependencies]
+beautifulsoup4 = "^4.12.3"
+requests = "^2.32.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
