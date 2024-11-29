@@ -17,3 +17,27 @@ Some good urls:
     - Double page spreads as single image
     - English onomatopoeias for majority of chapters
 
+
+
+Tooling:
+### 1. DVC pipelines (for versioning)
+```yaml
+# dvc.yaml
+stages:
+  augment:
+    cmd: spark-submit augment_data.py
+    deps:
+      - data/original
+      - augment_data.py
+    outs:
+      - data/augmented
+```
+maybe something with DVC experiments? https://dvc.org/doc/start/experiments/experiment-pipelines#expand-to-see-the-created-dvcyaml
+
+### 2. Spark for data augmentation
+Should use AWS EMR, good excuse to learn it
+
+
+### 3. Kubeflow for training
+Use kubeflow for model training experiments?
+
