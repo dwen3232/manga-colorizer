@@ -6,16 +6,22 @@ Some good urls:
     - All chapters up to 1061, though some of the ones towards the end are fan colorings
     - Double page spreads as single image
     - Japanese onomatopoeias
+    - CF protected
 - https://w29.onepiece-manga-online.net/
     - All the ink chapters up to 1131 (most recent)
     - chapter numbers do not match urls
     - lot's of inconsistencies between pages
     - Japanese onomatopoeias
+    - Unprotected
 - https://theonepiecemangaonline.com/
     - All the ink chapters up to 1131 (most recent)
     - Images have watermarks :(
     - Double page spreads as single image
     - English onomatopoeias for majority of chapters
+    - Unprotected
+- https://onepiececolored.online
+    - All color chapter up to 1004
+    - Japanese onomatopoeias
 
 
 
