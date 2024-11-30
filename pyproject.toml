@@ -12,6 +12,8 @@ python = "^3.12"
 pytest = "^8.3.3"
 types-beautifulsoup4 = "^4.12.0.20241020"
 types-requests = "^2.32.0.20241016"
+ruff = "^0.8.1"
+mypy = "^1.13.0"
 
 
 [tool.poetry.group.scrape.dependencies]
@@ -28,4 +30,33 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.ruff]
-target-version = "3.12"
+target-version = "py312"
+select = [
+    # Pyflakes
+    "F",
+    # Pycodestyle
+    "E",
+    # Pycodestyle - Warning
+    "W",
+    # isort
+    "I",
+    # mccabe
+    "C90",
+    # pep8-naming
+    "N",
+    # pyupgrade
+    "UP",
+    # flake8-async
+    "ASYNC",
+    # flake8-datetime-dtz
+    "DTZ",
+    # flake8-quotes
+    "Q",
+    # Pylint
+    "PL",
+    # Pygrep-hooks
+    "PGH",
+]
+indent-width = 4
+line-length = 80
+
