@@ -24,6 +24,8 @@ httpx = "^0.28.0"
 aiofiles = "^24.1.0"
 types-aiofiles = "^24.1.0.20240626"
 loguru = "^0.7.2"
+anyio = "^4.6.2.post1"
+tenacity = "^9.0.0"
 
 [build-system]
 requires = ["poetry-core"]
