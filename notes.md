@@ -22,6 +22,11 @@ Some good urls:
 - https://onepiececolored.online
     - All color chapter up to 1004
     - Japanese onomatopoeias
+    - Unprotected
+- https://w47.1piecemanga.com
+    - All chapters up to 1133
+    - English onomatopoeias for majority of chapters
+    - Unprotected
 
 
 
