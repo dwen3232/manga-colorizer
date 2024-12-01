@@ -87,7 +87,11 @@ async def get_image_urls(url: str, pattern: str, client: httpx.AsyncClient):
         if src and re.match(pattern, src):
             image_urls.append(src)
 
-    logger.debug(f"In {url=}, found {len(image_urls)=}!")
+    if image_urls:
+        logger.debug(f"In {url=}, found {len(image_urls)=}!")
+    else:
+        logger.warning(f"In {url=}, found {len(image_urls)=}!")
+
     return url, image_urls
 
 
@@ -196,6 +200,10 @@ async def main():
         # Try to write metadata
         if image_url_groups:
             logger.info(f"Found {len(image_url_groups)} groups")
+            count_empty_groups = sum(
+                (len(imgs) == 0) for imgs in image_url_groups.values()
+            )
+            logger.info(f"Found {count_empty_groups=} groups with no imgs")
             try:
                 await write_metadata(
                     image_url_groups, file_path=download_dir / "metadata"
