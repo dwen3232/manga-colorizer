@@ -84,7 +84,7 @@ async def get_image_urls(url: str, pattern: str, client: httpx.AsyncClient):
     image_urls: list[str] = []
     for img in img_tags:
         src = img.get("src") or img.get("data-src")
-        if re.match(pattern, src):
+        if src and re.match(pattern, src):
             image_urls.append(src)
 
     logger.debug(f"In {url=}, found {len(image_urls)=}!")
