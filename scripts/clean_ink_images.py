@@ -27,40 +27,53 @@ def compute_statistics(img_path: Path):
     return [a_mean, a_abs_max, b_mean, b_abs_max]
 
 
-def is_image_color(img_path: Path) -> bool:
-    img = cv2.imread(str(img_path))
-    chan_l, chan_a, chan_b = cv2.split(cv2.cvtColor(img, cv2.COLOR_BGR2LAB))
-
-    stats = {}
-    stats["a_mean"] = a_mean = np.mean(chan_a)  # type: ignore[arg-type]
-    stats["a_std"] = a_std = np.std(chan_a)  # type: ignore[arg-type]
-    stats["b_mean"] = b_mean = np.mean(chan_b)  # type: ignore[arg-type]
-    stats["b_std"] = b_std = np.std(chan_b)  # type: ignore[arg-type]
-    logger.debug(f"{img_path=} {stats}")
-
-    if (
-        abs(a_mean) < A_MEAN_THRESH
-        and abs(b_mean) < B_MEAN_THRESH
-        and a_std < A_STD_THRESH
-        and b_std < B_STD_THRESH
-    ):
-        return True
-    return False
-
-
 if __name__ == "__main__":
-    ink_path = Path("./manga-raw/ink1/manga_one-piece-chapter-1046/")
-    img_paths = [path for path in ink_path.iterdir()]
-    # filtered_img_paths = [
-    #     path for path in img_paths if not is_image_color(path)
-    # ]
-    #
-    # print(f"Found {len(img_paths)=}, {len(filtered_img_paths)=}")
-    ink_features = np.array([compute_statistics(path) for path in img_paths])
+    ink_path = Path("./manga-raw/ink1/")
+    color_path = Path("./manga-raw/color1/")
+
+    ink_img_paths = [
+        path
+        for chapter_path in ink_path.iterdir()
+        if chapter_path.is_dir() and "1001" in chapter_path.name
+        for path in chapter_path.iterdir()
+    ]
+    color_img_paths = [
+        path
+        for chapter_path in color_path.iterdir()
+        if chapter_path.is_dir() and "1001" in chapter_path.name
+        for path in chapter_path.iterdir()
+    ]
+    logger.debug(f"Found {len(ink_img_paths)=} images")
+    logger.debug(f"Found {len(color_img_paths)=} images")
+
+    ink_features = np.array(
+        [compute_statistics(path) for path in ink_img_paths]
+    )
+    color_features = np.array(
+        [compute_statistics(path) for path in color_img_paths]
+    )
+
     logger.debug(f"{ink_features.shape=}")
+    logger.debug(f"{color_features.shape=}")
+
+    features = np.concatenate([ink_features, color_features], axis=0)
+    logger.debug(f"{features.shape=}")
+
+    labels = np.concatenate(
+        [
+            np.zeros(ink_features.shape[0], dtype=np.bool),
+            np.ones(color_features.shape[0], dtype=np.bool),
+        ],
+    )
 
     svc = SVC()
-    svc.fit(ink_features, np.ones((ink_features.shape[0],), dtype=np.int8))
-    score = svc.score(ink_features, np.ones((ink_features.shape[0],), dtype=np.int8))
+    svc.fit(features, labels)
+
+    score = svc.score(
+        ink_features, np.ones((ink_features.shape[0],), dtype=np.int8)
+    )
     logger.info(f"Scored {score=}")
 
+    predictions = svc.predict(ink_features)
+
+    print(np.array(ink_img_paths)[predictions])
