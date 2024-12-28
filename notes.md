@@ -52,3 +52,14 @@ Should use AWS EMR, good excuse to learn it
 ### 3. Kubeflow for training
 Use kubeflow for model training experiments?
 
+
+# Data Cleaning
+Probably the easiest way to do this is to start the process off with masking the speech bubbles. Right
+now I'm thinking
+1. Use some open source speech bubble segmentation model to find the boundaries
+    - https://huggingface.co/kitsumed/yolov8m_seg-speech-bubble/tree/main
+2. If necessary, use a text detection model (easyOCR?) to find the text boundaries
+    - May not be necessary if the segmentation model is good enough
+3. Compare colored and ink images, use similarity score to match them
+    - Do this to remove "extra" pages as well
+    - try some simpler methods first, before trying something like orb
