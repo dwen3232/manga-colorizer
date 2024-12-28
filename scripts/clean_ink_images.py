@@ -34,13 +34,15 @@ if __name__ == "__main__":
     ink_img_paths = [
         path
         for chapter_path in ink_path.iterdir()
-        if chapter_path.is_dir() and "1001" in chapter_path.name
+        if chapter_path.is_dir()
+        # if chapter_path.is_dir() and "1001" in chapter_path.name
         for path in chapter_path.iterdir()
     ]
     color_img_paths = [
         path
         for chapter_path in color_path.iterdir()
-        if chapter_path.is_dir() and "1001" in chapter_path.name
+        if chapter_path.is_dir()
+        # if chapter_path.is_dir() and "1001" in chapter_path.name
         for path in chapter_path.iterdir()
     ]
     logger.debug(f"Found {len(ink_img_paths)=} images")
@@ -76,4 +78,22 @@ if __name__ == "__main__":
 
     predictions = svc.predict(ink_features)
 
-    print(np.array(ink_img_paths)[predictions])
+    predicted_paths = np.array(ink_img_paths)[predictions]
+
+    # save them
+    with open("./predictions", "w") as f:
+        f.writelines(str(predicted_path) for predicted_path in predicted_paths)
+
+    # Create a named window
+    window_name = "Image Viewer"
+    cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
+
+    for path in predicted_paths:
+        image = cv2.imread(path)
+
+        # Display the image
+        cv2.imshow(window_name, image)
+
+        # Wait for a key press
+        print("Press any key to close the image window...")
+        cv2.waitKey(0)
