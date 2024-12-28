@@ -8,6 +8,10 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.12"
 scikit-learn = "^1.5.2"
+huggingface-hub = "^0.27.0"
+torch = "^2.5.1"
+ultralytics = "^8.3.55"
+easyocr = "^1.7.2"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.3"
@@ -27,6 +31,7 @@ types-aiofiles = "^24.1.0.20240626"
 loguru = "^0.7.2"
 anyio = "^4.6.2.post1"
 tenacity = "^9.0.0"
+matplotlib = "^3.10.0"
 
 
 [tool.poetry.group.clean.dependencies]
