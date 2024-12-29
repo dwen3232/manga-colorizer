@@ -1,3 +1,4 @@
+from collections import Counter
 from pathlib import Path
 
 import cv2 as cv
@@ -48,13 +49,43 @@ class PanelCleaner:
             # Draw filled rectangle on text mask
             cv.rectangle(text_mask, tl, br, 255, -1)
 
-        composite_mask = cv.bitwise_and(bubble_mask, text_mask)
-
-        masked_image = cv.bitwise_and(
-            original_image, original_image, mask=composite_mask
+        # Create mask for non-text areas within bubbles
+        non_text_bubble_mask = cv.bitwise_and(
+            bubble_mask, cv.bitwise_not(text_mask)
         )
 
-        return masked_image
+        # Extract colors from the original image using the non_text_bubble_mask
+        bubble_colors = original_image[non_text_bubble_mask > 0]
+
+        # Find the most common color
+        if len(bubble_colors) > 0:
+            most_common_color = tuple(
+                map(
+                    int, Counter(map(tuple, bubble_colors)).most_common(1)[0][0]
+                )
+            )
+        else:
+            most_common_color = (
+                255,
+                255,
+                255,
+            )  # Default to white if no colors found
+
+        # Create a new image filled with the most common color
+        color_filled_image = np.full(
+            original_image.shape, most_common_color, dtype=np.uint8
+        )
+
+        # Create composite mask
+        composite_mask = cv.bitwise_and(bubble_mask, text_mask)
+
+        # Combine original image and color-filled image using the composite mask
+        result_image = original_image.copy()
+        result_image[composite_mask > 0] = color_filled_image[
+            composite_mask > 0
+        ]
+
+        return result_image
 
     def display(self, img_path: str | Path):
         img_path = str(img_path)
