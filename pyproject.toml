@@ -12,6 +12,7 @@ huggingface-hub = "^0.27.0"
 torch = "^2.5.1"
 ultralytics = "^8.3.55"
 easyocr = "^1.7.2"
+sentence-transformers = "^3.3.1"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.3"
@@ -74,3 +75,8 @@ line-length = 80
 
 [tool.mypy]
 plugins = ["numpy.typing.mypy_plugin"]
+
+
+[tool.pytest.ini_options]
+log_cli = true
+log_cli_level = "INFO"
